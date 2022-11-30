@@ -1,14 +1,14 @@
+require('dotenv').config()
 const express = require('express');
 const https = require('https')
 const bodyParser = require('body-parser'); 
 const app = express()
-const PORT = 2000
 
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(express.static('public'))
 
-app.get('/',(req,res)=>{
+app.get('/JsonData',(req,res)=>{
 res.sendFile(__dirname + "/index.html")
 })
 
@@ -34,7 +34,7 @@ app.post('/' ,(req,res)=>{
  })
 })
 
-app.get('/login' ,(req,res)=>{
+app.get('/' ,(req,res)=>{
   res.sendFile(__dirname + "/signup.html")
 })
 
@@ -81,13 +81,12 @@ const JsonData = JSON.stringify(data)
     requests.end()
   
 })
-// 70b8cf542b8b2a08fc0fc4f783bd5c98-us17
 
 app.post('/failure' ,(req,res)=>{
-  res.redirect('/login')
+  res.redirect('/')
 })
 
-app.listen(PORT ,()=>{
-    console.log(`server start http://localhost:${PORT}`);
+app.listen(process.env.PORT || 3000 ,()=>{
+    console.log(`server start http://localhost:${process.env.PORT}`);
 })
 
