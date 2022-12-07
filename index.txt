@@ -1,0 +1,39 @@
+Learning a little each day adds up. Research shows that students who make learning a 
+habit are more likely to reach their goals. Set time aside to learn and get reminders using your learning schedule
+
+
+DataBase Consept
+SQL MySQL postgeSQL relation base DataBase
+==================================================================
+CREATE TABLE Customers (id INT not NULL PRIMARY KEY , FName VARCHAR(255) not NULL , LName VARCHAR(255) NOT NULL, Fess INT 
+                        NOT NULL , Email VARCHAR(255) NOT NULL)
+insert Data in TABLE
+INSERT INTO Student (id ,Name ,price) VALUES (1 ,"Divya Chourasiya " ,100)
+=====================================================================                        
+NoSQL mangoDB Redis  not relation base DataBase
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1. show dbs database collection name given .
+2. use divyaDB  create Database 
+3. check using database name use (db )
+insert
+4. Db_name.Collection_name.insertOne({_id:1 ,name:Divya})
+5. Db_name.Collection_name.insertMany([{_id:1 ,name:divya},{_id:2,name:chourasiya}]),
+find
+6. Db_name.collection.find() all find
+7. Db_name.collection.findById({_id:id})
+8. Db_name.collection.findOne({name:Divya})
+9. Db_name.collection.findByIdUpdate(id ,update_data , Option ,callback)
+10. Db_name.Collection_name.findByIdRemove(id ,options,callback)
+11 Db_name.Collection_name.findOneAndDelete(conditions ,options ,callback) using 3 type without options and findOneAndDelete()
+update
+13. Db_name.collection.update() all Update
+14. Db_name.collection.updateOne() 
+Delete
+15. Db_name.collection.deleteOne() all delete
+16. Db_name.collection.deleteMany() 
+
+REST REpresentational state transfer
+client ----HTTP Request----> server  server is simpal  calculater  web Application 
+server === communicate ====>Database
+
+
