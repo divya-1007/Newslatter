@@ -327,12 +327,10 @@ app.get('/register', (req, res) => {
 })
 
 app.get('/secrets', function (req, res) {
-  if (req.isAuthenticated()) {
+  
     res.render("secrets", {
     })
-  } else {
-    res.redirect("/login")
-  }
+  
 })
 
 app.post('/register', (req, res) => {
