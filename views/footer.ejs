@@ -1,6 +1,26 @@
+<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $(".change-password-form").submit(function (e) {
+      e.preventDefault();
+      var fromData = $(this).serialize();
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: fromData,
+        headers: {"Content-Type": "application/json"},
+        success: function (response) {
+
+        }
+      });
+    });
+  });
+</script> -->
 </body>
 <footer style="margin: auto ; width: 18%;font-size: 1rem;
 font-weight: bold; color: darkgray;">
-  Copyright 2022 The App  To Do List
+  Copyright 2022 The App To Do List
 </footer>
+
 </html>

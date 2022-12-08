@@ -4,24 +4,75 @@ const https = require('https')
 const bodyParser = require('body-parser');
 const app = express()
 const mongoose = require("mongoose")
-const encrypt = require('mongoose-encryption');
+const passport = require('passport')
+const session = require('express-session')
+const bcrypt = require('bcrypt');
 const data = require('./JSpage/data')
-var itemData = ["Buy Food","Cook Food" ,"Eat Food"]
+var itemData = ["Buy Food", "Cook Food", "Eat Food"]
 const restApi = require('./RESTAPI/router/index')
 const userData = require('./model/userData')
 const Login = require('./model/login');
 const login = require('./model/login');
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const Items = require("./model/item")
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
+app.use(session({
+  secret: "Our little secret.",
+  resave: false,
+  saveUninitialized: true
+}))
+
+
+
 app.use(express.static('public'));
-mongoose.set({"strictQuery": false })
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: false,})
-.then(console.log('Database connecting'))
-.catch(err => console.log(`error: ${err}`))
+
+mongoose.set({ "strictQuery": false })
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: false, })
+  .then(console.log('Database connecting'))
+  .catch(err => console.log(`error: ${err}`))
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(Login.createStrategy())
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  Login.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new GoogleStrategy({
+  clientID:process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "http://localhost:5000/auth/google/callback",
+},
+function(accessToken, refreshToken, profile, cb) {
+  // console.log(profile ,"dkdfd")
+  Login.findOrCreate({ googleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
+
+app.get("/auth/google",
+  passport.authenticate('google', { scope: ["profile"] })
+);
+
+app.get('/auth/google/callback',
+passport.authenticate('google', { failureRedirect: "/login" }),
+function(req, res) {
+  // Successful authentication, redirect to secrets.
+  res.redirect("/secrets");
+  });
+
+  
 
 // file system
 // fs.copyFileSync('index.txt' , 'index2.txt')
@@ -113,7 +164,7 @@ app.post('/calculater-data', (req, res) => {
 })
 
 // EJS Embedded JavaScript templating
-let workItem = [] ;
+let workItem = [];
 app.get('/about', (req, res) => {
   const dates = data()
   var day = dates.day
@@ -121,166 +172,294 @@ app.get('/about', (req, res) => {
 
   res.render('toDoList', {
     kindOfday: day,
-    kindDay:kindDay,
-    itemData:itemData 
+    kindDay: kindDay,
+    itemData: itemData
   })
 })
 
-app.post('/to-do' ,(req,res)=>{
+app.post('/to-do', (req, res) => {
   const items = req.body.item
   console.log(req.body);
-if(req.body.list === 'work list'){
-  workItem.push(items)
-  res.redirect('/work')
-}else{
-  itemData.push(items)
-  res.redirect('/about')
-}
+  if (req.body.list === 'work list') {
+    workItem.push(items)
+    res.redirect('/work')
+  } else {
+    itemData.push(items)
+    res.redirect('/about')
+  }
 })
 
-app.get('/work' ,(req,res)=>{
-  res.render('toDoList',{ kindDay:'work list' ,itemData:workItem ,kindOfday:0})
+app.get('/work', (req, res) => {
+  res.render('toDoList', { kindDay: 'work list', itemData: workItem, kindOfday: 0 })
 })
 
-app.post('/work',(req,res)=>{
+app.post('/work', (req, res) => {
   let items = req.body.item
   workItem.push(items)
   res.redirect('/work')
 })
 
-app.get('/pass',(req,res)=>{
-res.render('about',{
+app.get('/pass', (req, res) => {
+  res.render('about', {
 
-})
+  })
 })
 
-app.use('/',restApi)
+app.use('/', restApi)
 
 // =========== Request tragating  all Artical ==========================
-app.route('/articalData').get(function (req,res){
-  userData.find(function(err, foundArticles){
-      if (!err) {
-        res.send(foundArticles);
-      } else {
-        res.send(err);
-      }
+app.route('/articalData').get(function (req, res) {
+  userData.find(function (err, foundArticles) {
+    if (!err) {
+      res.send(foundArticles);
+    } else {
+      res.send(err);
+    }
   })
-}).post( function(req,res){
-     const user = new userData({
-         title:req.body.title,
-         content:req.body.content
-     })
-     user.save((error)=>{
-       if(!error){
-       res.send("INSER DATA SUCCESSFULLY ")
-       }else{
-        res.send(error)
-       }
-     })
- })
- .delete(function(req,res){
-  userData.deleteMany((error)=>{
-    if(!error){
-      res.send("successfully delete Data")
-    }else{
+}).post(function (req, res) {
+  const user = new userData({
+    title: req.body.title,
+    content: req.body.content
+  })
+  user.save((error) => {
+    if (!error) {
+      res.send("INSER DATA SUCCESSFULLY ")
+    } else {
       res.send(error)
     }
   })
 })
+  .delete(function (req, res) {
+    userData.deleteMany((error) => {
+      if (!error) {
+        res.send("successfully delete Data")
+      } else {
+        res.send(error)
+      }
+    })
+  })
 
 // =========== Request tragating Specific all Artical ==========================
- app.route('/articalspecific/:articalTitle')
- .get(function(req,res) {
-  userData.findOne({title:req.params.articalTitle}, function(error ,data){
-    if(!error){
-    res.send(data)
-    }else{
-      res.send(error)
-    }
-  })
- })
- .put(function (req,res) {
-   userData.updateOne({title:req.params.articalTitle},
-    {title:req.body.title,content:req.body.content},
-    function(error) {
-    if(!error){
-      res.send("Update data")
-     }else{
-      res.send(error)
-     }
-   })
- })
- .patch(function (req,res) {
-   userData.updateOne({title:req.params.articalTitle},
-    {$set: req.body},
-    function(error) {
-      if(!error){
-        res.send("Update data Patch")
-       }else{
+app.route('/articalspecific/:articalTitle')
+  .get(function (req, res) {
+    userData.findOne({ title: req.params.articalTitle }, function (error, data) {
+      if (!error) {
+        res.send(data)
+      } else {
         res.send(error)
-       }
+      }
     })
- })
- .delete(function(req,res){
-  userData.deleteOne({title:req.params.articalTitle} ,function(error){
-    if(!error){
-      res.send('Data Delete ')
-    }else{
-      res.send(error)
-    }
   })
- })
+  .put(function (req, res) {
+    userData.updateOne({ title: req.params.articalTitle },
+      { title: req.body.title, content: req.body.content },
+      function (error) {
+        if (!error) {
+          res.send("Update data")
+        } else {
+          res.send(error)
+        }
+      })
+  })
+  .patch(function (req, res) {
+    userData.updateOne({ title: req.params.articalTitle },
+      { $set: req.body },
+      function (error) {
+        if (!error) {
+          res.send("Update data Patch")
+        } else {
+          res.send(error)
+        }
+      })
+  })
+  .delete(function (req, res) {
+    userData.deleteOne({ title: req.params.articalTitle }, function (error) {
+      if (!error) {
+        res.send('Data Delete ')
+      } else {
+        res.send(error)
+      }
+    })
+  })
 
 //=================== Authentication & Security ===========================
 
-app.get('/home', (req,res)=>{
+app.get('/home', (req, res) => {
   res.send("Home")
 })
 
-app.get('/login', (req,res)=>{
-  // res.send("Login")
-  res.render('Login' ,{
+app.get('/submit',(req,res)=>{
+  
+  // if (req.isAuthenticated()) {
+    res.render("submit", {
+    })
+  // } else {
+  //   res.redirect("/login")
+  // }
+})
+
+app.post('/submit', (req,res)=>{
+ const secret = req.body.secret
+ console.log(req.session.user.id);
+ Login.findOne({email:req.session.user.email} ,function(error ,foundUser){
+  console.log(error ,foundUser);
+  if(error){
+      console.log(error);
+  }else{
+  if(foundUser){
+    foundUser.secret = secret
+    foundUser.save(function(){
+        res.redirect('/secrets')
+    })
+  }
+  }
+ })
+})
+
+app.get('/login', (req, res) => {
+  res.render('Login', {
   })
 })
 
-app.get('/register', (req,res)=>{
+app.get('/register', (req, res) => {
   res.render('register.ejs', {
   })
 })
 
-app.post('/register',(req,res)=>{
-  const signup = new Login({
-    email:req.body.email,
-    password:req.body.password
-  })
-  signup.save((error)=>{
-    if(error){
-      res.send(error)
-    }else{
-     res.render('secrets')
+app.get('/secrets', function (req, res) {
+  if (req.isAuthenticated()) {
+    res.render("secrets", {
+    })
+  } else {
+    res.redirect("/login")
+  }
+})
+
+app.post('/register', (req, res) => {
+  //   const saltRounds = 10;
+  //   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+  //     const signup = new Login({
+  //       email:req.body.email,
+  //       password:hash
+  //     })
+  //     signup.save((error)=>{
+  //       if(error && error !== null){
+  //         res.redirect("/register")
+  //       }else{
+  //         res.redirect('/secrets')
+  //       }
+  //     })
+  // });
+
+  Login.register({ username: req.body.email }, req.body.password, function (err, user) {
+    if (err) {
+      console.log('error registering user');
+      console.log(err);
+      return res.send('oops');
+    }
+    passport.authenticate('local')(req, res, function () {
+      res.redirect('/secrets');
+    });
+  });
+
+  // Login.register({email:req.body.email} ,req.body.password , function (error, user) {
+  //   console.log(error ,user);
+  //   if(error){
+  //     res.redirect("/register")
+  //   }else{
+  //     passport.authenticate('local')(req,res, function(){
+  //       res.redirect('/secrets')
+  //     })
+  //   }
+  // })
+})
+
+app.post('/login', (req, res) => {
+  const email1 = req.body.email
+  const password1 = req.body.password
+
+  login.findOne({ email: email1 }, (error, foundData) => {
+    if (error) {
+      console.log(error);
+    } else {
+      if (foundData) {
+        bcrypt.compare(password1, foundData.password, function (err, result) {
+          req.session.user = foundData
+          res.cookie("token", foundData);
+          if (result === true) {
+            res.render('secrets')
+          } else {
+            res.send("password Not Match")
+          }
+        });
+      }
     }
   })
 })
 
-app.post('/login',(req,res)=>{
- const email1 = req.body.email
- const password1 = req.body.password
- 
- login.findOne({email:email1} ,(error ,foundData)=>{
- if(error){
-console.log(error);
- }else{
- if(foundData){
-  if(foundData.password === password1){
-    res.render('secrets')
-  }else{
-    res.send("password Not Match")
-  }
- }
- }
- })
- 
+//==============Putting everything  together===============================
+const item1 = new Items({
+  itemName:"welcome to your todoList!"
+})
 
+const item2 = new Items({
+  itemName:"Hi the + Button to a new item"
+})
+
+const item3 = new Items({
+  itemName:" Hi this to delete an item ."
+})
+
+ const InsertMany = [item1 ,item2 ,item3]
+
+
+
+app.get('/todoData', async(req,res)=>{
+  const recordData = await Items.find({})
+  if(recordData.length === 0){
+    Items.insertMany(InsertMany ,function(error){
+  if(error){
+    console.log(error);
+  }else{
+    console.log("Successfully save all itme to DB");
+  }
+ }) 
+ res.redirect("/failure")
+  }else{
+    res.render('TodoList1', {
+      kindOfday: 0,
+      kindDay: "Today",
+      itemData: recordData
+    })
+  }
+})
+
+app.post('/todolist1' ,function(req,res){
+
+  const item3 = new Items({
+    itemName:req.body.itemName,
+  })
+  item3.save()
+
+  res.redirect('/todoData')
+})
+
+app.post('/delete' ,function(req,res){
+
+  const deleteData = req.body;
+  console.log(deleteData);
+  Items.findByIdAndRemove({_id: req.body.checkbox} ,function(error){
+    if(!error){
+      console.log("successfully delete");
+    }else{
+      console.log(error);
+    }
+  })
+  // res.redirect('/todoData')
+})
+
+app.get("/:CustomeListName" ,function(req,res){
+  const CustomeListName = req.body.CustomerListName
 })
 
 app.listen(process.env.PORT || 3000, () => {

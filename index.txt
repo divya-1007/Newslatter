@@ -36,4 +36,23 @@ REST REpresentational state transfer
 client ----HTTP Request----> server  server is simpal  calculater  web Application 
 server === communicate ====>Database
 
+encryption using ==== mongoose-encryption
+hashing using ===== md5 md125
+bcrypt using salting and hashing
 
+Cookies and  Sessions
+passport passport-local passport-local-mongoose express-session
+
+OAuth2.0 
+{
+  "type": "service_account",
+  "project_id": "newslatter-370912",
+  "private_key_id": "0b8fa4774b37b29b06f408fd539591f4cbfa0724",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDSbUKTobgXrfxG\n6yLtMoxsvocVN+IAK7C3OdJIeR+SR3fOUsvkyP7ZQPd3dWADSmWIGnb1mQiMWPwl\nrsNcWt6AS65H8or/daqbMoE0oPqnkelP+ZWqI+/BoUVNcUAiWzZnXdZ33/jQi00j\n3aPj34BH+6eMBj+wiTmQLoeQ9HNuhSwXzZXsZY5F3NfBBHpMCXtCquhrmS/1gAol\nxOAaJtfpSuzqB+Sbbl2CFwE2NnZo/d/vm5hBC9OBoHMKsvxXBebXYC3AUHe0gj7y\nKXeqibuFitL1i8j80v2ucGyauLGMr2s6sf3DT8H/yhVyRzngUw82iNQ59jYr6ysV\nv8QALcMhAgMBAAECggEABwlXSheEz+nl/zsaqmLf1j0SyE9bk9TiLmZVFU5Tk3En\nXPNg1RAxkXM+MzTuFn4U4hW8d5777bGGEP6EkuCJAzJErCw8oKk/ILxyHJ/rcdIL\nwrxeWFemS0vIxPuuANga/B7jrpODPvoBhNsDAXo2UHHmWuTUmWMlVSBxMRQzjfT/\niHL2lBzgmU1lus24qxvFY0UwcPusWYxhifc2Kii8HVsc69VjOFCb8AMDDa+c5C5W\n0hWPA/WJhbmkRV8imRp/BM4PS4RpQSoKPx7OSfMxSmv5yL0Y5DVpbtCQgnGtqyiv\nlmnPOfqJJmfJhvtNdt+qqGPjBxXVgSMGSvnEVkkLaQKBgQDyZrcecMkeAC6WZUNB\n152/r5X+tmvmclvLMJ5eM+9v2siH9HF1gCNyNiillEgTWsjBQiTkhYUW918irJ34\nRDdI8bFzi+w79ZoQ6aBNlwzmmCoclaFMmxkN27GDOx+SV+2Aki6tRDI3roHHoiMd\nUQ1d/HLFJFqEiN4K0+7fBAuqVQKBgQDeO1a2NCAfak14acc9YYD+VFfSu8N46cuD\nx5A1sU+dFH+s3XzYZEN4zcbd6qEL4JB4DMx9tBo3sNfjjYUaeVwQv+I7KM2CpMOv\ngQY5sw8dR+DVmP5yLuBaNxcRrHC/yYnREG6QPm18MJTiT9b2KlQsdcX96nYRqYf3\nFG0oB9QZnQKBgCai9KEnfQcJJGPYdCX0hjJdfF0DGqO6qqLyduuw/4MmrjvtXIBM\nElpMA6KQxgQ/viv/rP23woTsnP9b4DoINX+s9oniTZ8pAIudkW2MnAPNUTkJKJKb\nTh0FXX/7Vobu+O47XrFDY3W4nPsC/vHXT3ghmvGNX9gsMKgtK6/kZy+ZAoGAfP8n\nUKiVANaL6JSmqlGzeln6Y9+UnOfzvpV6+ZhXzWSAQ7z4wcXzZXlox9124/VVjRC1\n3GZ28KgZZjZtjWyBajJjjx7uKPN/1bFezQl4EOIjBkFdrN/M9TFTWm+Bo346dEsn\nxR43+shglcKOiDtayP8ddCpyapDOlxz4ILH2jMkCgYALRoCE7KtydYSZSq9bupfe\nhd/3vhI2OcLeumapCHfPhxY5oTwBHjjb7ujojGgNatUpwDGq611VNWv8rvd41cyF\nFSNoHieGR8OZ1N0/h0yxuefL9ELGQwCCA0LoXMJoIW2X0y0yDNZyM18vHmq3piU4\nGp95JBHPNSmDPjyCyUYHAg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "newslatter@newslatter-370912.iam.gserviceaccount.com",
+  "client_id": "102286566209429004322",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/newslatter%40newslatter-370912.iam.gserviceaccount.com"
+}

@@ -1,0 +1,29 @@
+<%- include('header'); -%>
+    <div class="box" id="heading">
+    <h1 style="color: rgb(199, 66, 199)"><%= kindDay %></h1>
+  </div>
+   
+    <%  itemData.forEach(function(items) { %>
+    <from action="/delete" method="Post">
+      <div class="item">
+        <input type="checkbox" name="checkbox" id="checkbox1" value="<%= items._id %>" >
+        <p><%= items.itemName %></p>
+      </div>
+    </from>
+    <% }) %>
+
+    <form class="item" action="/todolist1" method="post">
+      <input class="ml-5" type="text" name="itemName" placeholder="New Item" required autocomplete="off" />
+      <button type="submit" name="list" value="<%= kindDay %>" >+</button>
+    </form>
+  </div>
+ <% if(kindOfday) { %>
+  <% if(kindOfday==='Sunday' || kindOfday==='Saturday' ) { %>
+    <h1 style="color: purple">It's a <%= kindOfday %></h1>
+    <% } else { %>
+    <h1 style="color: blue">It's a <%= kindOfday %></h1>
+    <% } %>
+    <% }else { %>
+    <p> Date Not found</p>
+    <% } %>
+  <%- include('footer'); -%>
