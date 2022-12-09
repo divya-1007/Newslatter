@@ -27,7 +27,6 @@ app.use(session({
 }))
 
 
-
 app.use(express.static('public'));
 
 mongoose.set({ "strictQuery": false })
@@ -460,6 +459,21 @@ app.get("/:CustomeListName" ,function(req,res){
   const CustomeListName = req.body.CustomerListName
 })
 
+// JavaScript
+
+var name = "container"
+var charsplice = name.slice(0,1)
+var uppercase = charsplice.toUpperCase()
+var chars2 = name.slice(1, name.length)
+chars2 = chars2.toLocaleLowerCase()
+var resultcon =  uppercase  +  chars2
+console.log(resultcon)
+
+var n = Math.random()
+ n = n * 6 ;
+ n = Math.random(n)
+ console.log(n);
+ 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`server start http://localhost:${process.env.PORT}`);
 })

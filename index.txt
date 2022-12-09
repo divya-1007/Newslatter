@@ -56,3 +56,32 @@ OAuth2.0
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/newslatter%40newslatter-370912.iam.gserviceaccount.com"
 }
+
+ JavaScript ES6
+Interpreted                   Compiled
+JavaScript                    Java
+Python                        C ,C++
+Ruby                          Swift
+
+JavaScript Data Type 
+String  = "tex"
+Number = 123
+Boolean = true | false 
+
+window function
+alert()
+prompt("what is your name")
+
+concatennation 
+var concat = "a" + "b" result is (a  b)
+String length 
+var name = "Divya"
+name.length   result  (5)
+slice string seprate individual string 
+var stringData = "Divya"
+stringData.slice(0,1) result (D)
+stringData.slice(0,4) result (Divy)
+toUpperCase() and toLowerCase()
+
+random number grnerate in JavaScript using Math function
+var random = Math.random() ;
