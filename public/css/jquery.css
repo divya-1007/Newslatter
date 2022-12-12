@@ -1,0 +1,12 @@
+.link{
+ justify-self: center;
+ display: grid;
+ align-items: center;
+ width: 5rem;
+ height:3rem;
+}
+.btn-warning{
+    background-color: rgb(36, 220, 19);
+    padding: 2px;
+    margin: 1px;
+}

@@ -155,12 +155,21 @@ app.get('/calculater', (req, res) => {
   res.sendFile(__dirname + '/htmlPage/calculater.html')
 })
 
+// DOM
 app.get('/dicegame', (req,res)=>{
   res.sendFile(__dirname + '/Dom/dice.html')
 })
-
+// Dom Advance Concept
 app.get('/drumgame', (req,res)=>{
   res.sendFile(__dirname + '/Dom/drum.html')
+})
+
+// JQuery
+app.get('/testJquery' ,(req,res)=>{
+  res.sendFile(__dirname + '/jQuery/jquery.html')
+})
+app.get('/semongame' ,(req,res)=>{
+  res.sendFile(__dirname + '/jQuery/simon.html')
 })
 
 app.post('/calculater-data', (req, res) => {

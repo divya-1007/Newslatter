@@ -75,8 +75,8 @@ function buttonAnimation(currentKey){
 
 // Higher Order Function
 function add(num1, num2) {
-    return num1 + num2;
-    }
+ return num1 + num2;
+ }
      
 function subtract(num1, num2) {
 return num1 - num2;
@@ -91,8 +91,24 @@ return num1 / num2;
 }
     
 function calculator(num1, num2, operator) {
-return operator(num1, num2);
+switch (operator) {
+    case 'add':
+        return add(num1 ,num2) ;
+
+        case 'sub':
+        return subtract(num1 ,num2);
+
+       case 'mul':
+       return multiply(num1 ,num2);
+
+      case 'div':
+      return divide(num1 ,num2) ;
+
+    default:
 }
+}
+
+console.log(calculator(10 ,5 ,'mul'));
 
 // callback == wating a click event , then the callback function gets called back and executed
 function AnotherAddEventListener(typeOfEvent ,callback){
