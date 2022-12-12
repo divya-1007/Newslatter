@@ -155,6 +155,14 @@ app.get('/calculater', (req, res) => {
   res.sendFile(__dirname + '/htmlPage/calculater.html')
 })
 
+app.get('/dicegame', (req,res)=>{
+  res.sendFile(__dirname + '/Dom/dice.html')
+})
+
+app.get('/drumgame', (req,res)=>{
+  res.sendFile(__dirname + '/Dom/drum.html')
+})
+
 app.post('/calculater-data', (req, res) => {
   const { fName, lname } = req.body
   var n1 = fName + lname;
@@ -459,21 +467,9 @@ app.get("/:CustomeListName" ,function(req,res){
   const CustomeListName = req.body.CustomerListName
 })
 
-// JavaScript
 
-var name = "container"
-var charsplice = name.slice(0,1)
-var uppercase = charsplice.toUpperCase()
-var chars2 = name.slice(1, name.length)
-chars2 = chars2.toLocaleLowerCase()
-var resultcon =  uppercase  +  chars2
-console.log(resultcon)
 
-var n = Math.random()
- n = n * 6 ;
- n = Math.random(n)
- console.log(n);
- 
+
 app.listen(process.env.PORT || 3000, () => {
   console.log(`server start http://localhost:${process.env.PORT}`);
 })

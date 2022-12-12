@@ -85,3 +85,5 @@ toUpperCase() and toLowerCase()
 
 random number grnerate in JavaScript using Math function
 var random = Math.random() ;
+
+Array using function includes() function  push() pop() unshift()
